@@ -21,6 +21,17 @@ public class Zwierze {
 
     public int sredniWiek;
 
+    @Override
+    public String toString() {
+        return "Zwierze{" +
+                "id=" + id +
+                ", gatunek='" + gatunek + '\'' +
+                ", srodowisko='" + srodowisko + '\'' +
+                ", czyRoslinozerny=" + czyRoslinozerny +
+                ", sredniWiek=" + sredniWiek +
+                '}';
+    }
+
     public Zwierze() {
     }
 
