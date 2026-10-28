@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">My Application</string>
+    <string-array name="srodowisko">
+        <item>wodne</item>
+        <item>wefojh</item>
+        <item>iwfuehgiu</item>
+    </string-array>
 </resources>

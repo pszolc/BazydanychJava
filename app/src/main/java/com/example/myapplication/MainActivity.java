@@ -7,8 +7,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.room.Room;
+import androidx.room.RoomDatabase;
 
 public class MainActivity extends AppCompatActivity {
+    private ZwierzetaDataBase zwierzetaDataBase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,7 +25,15 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
+        zwierzetaDataBase = Room.databaseBuilder(
+                getApplicationContext(),
+                ZwierzetaDataBase.class,
+                "zwierzeta_db"
+        ).allowMainThreadQueries().build();
 
+        zwierzetaDataBase.zwrocZwierzeDAO().wstawdoBazy(
+                new Zwierze("sarna europjeska", true, 12, "srdpwpislp")
+        );
 
 
     }
