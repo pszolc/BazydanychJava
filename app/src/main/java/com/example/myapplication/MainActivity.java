@@ -26,9 +26,9 @@ public class MainActivity extends AppCompatActivity {
     private CheckBox checkBox;
     private Button przycisk;
     private ZwierzetaDataBase zwierzetaDataBase;
-    List<Zwierze> zwierzeList;
-    ListView listView;
-    Adapter zwierzta;
+    private ListView listView;
+    private ArrayAdapter<Zwierze> arrayAdapter;
+    private List<Zwierze> zwierzeta;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
         przycisk = findViewById(R.id.button);
         spinner = findViewById(R.id.spinner);
         checkBox = findViewById(R.id.checkBox);
-        listView = findViewById(R.id.idlist);
+
 
 
         zwierzetaDataBase = Room.databaseBuilder(
@@ -73,10 +73,12 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
         );
-
-//        zwierzta = zwierzetaDataBase.zwrocZwierzeDAO().zwrovWszytskieZwierzeta();
-//        arrayAdatper= new ArrayAdapter<MainActivity.this, andr
-
+        listView=findViewById(R.id.idlist);
+        zwierzeta=zwierzetaDataBase.zwrocZwierzeDAO().zwrovWszytskieZwierzeta();
+        arrayAdapter=new ArrayAdapter<>(MainActivity.this,
+                android.R.layout.simple_list_item_1,
+                zwierzeta);
+        listView.setAdapter(arrayAdapter);
 
     }
 }
