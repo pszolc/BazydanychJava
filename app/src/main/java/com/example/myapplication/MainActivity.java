@@ -19,17 +19,20 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     private EditText editTextGatunek, editTextWiek;
     private Spinner spinner;
     private CheckBox checkBox;
-    private Button przycisk;
+    private Button przycisk, buttonaktualizacja;
     private ZwierzetaDataBase zwierzetaDataBase;
     private ListView listView;
     private ArrayAdapter<Zwierze> arrayAdapter;
     private List<Zwierze> zwierzeta;
+    private Zwierze kliknietezwietze;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
         przycisk = findViewById(R.id.button);
         spinner = findViewById(R.id.spinner);
         checkBox = findViewById(R.id.checkBox);
+        buttonaktualizacja = findViewById(R.id.button2);
 
 
 
@@ -96,7 +100,41 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
         );
+    listView.setOnItemClickListener(
+            new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                    kliknietezwietze = zwierzeta.get(i);
+                    editTextGatunek.setText(kliknietezwietze.gatunek);
+                    checkBox.setChecked(kliknietezwietze.czyRoslinozerny);
+                    ArrayList<String> srodowiska = new ArrayList<String>(
+                            Arrays.asList("wodne", "lądowe", "powietrzne")
+                    );
+                    spinner.setSelection(srodowiska.indexOf(kliknietezwietze.srodowisko));
+                    editTextWiek.setText(String.valueOf(kliknietezwietze.sredniWiek));
+                    buttonaktualizacja.setVisibility(view.VISIBLE);
 
+                }
+            }
+    );
+
+    buttonaktualizacja.setOnClickListener(
+            new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    kliknietezwietze.gatunek = editTextGatunek.getText().toString();
+                    kliknietezwietze.srodowisko = spinner.getSelectedItem().toString();
+                    kliknietezwietze.sredniWiek = Integer.parseInt(editTextWiek.getText().toString());
+                    kliknietezwietze.czyRoslinozerny = checkBox.isChecked();
+
+                    zwierzetaDataBase.zwrocZwierzeDAO().zauktualizujZwierze(kliknietezwietze);
+                    arrayAdapter.notifyDataSetChanged();
+                    buttonaktualizacja.setVisibility(view.VISIBLE);
+
+                }
+            }
+    );
 
     }
 }
